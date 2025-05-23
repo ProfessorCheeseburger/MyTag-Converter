@@ -1,0 +1,51 @@
+{
+    "categories": {
+        "Genre": {
+            "tags": [
+                "House",
+                "Trap",
+                "Dubstep",
+                "Disco. Drum and Bass"
+            ],
+            "rekordbox_field": "Genre",
+            "metadata_field": "GENRE"
+        },
+        "Components": {
+            "tags": [
+                "Synth",
+                "Piano",
+                "Kick",
+                "Hi Hat"
+            ],
+            "rekordbox_field": "Composer",
+            "metadata_field": "COMPOSER"
+        },
+        "Situation": {
+            "tags": [
+                "Warm Up",
+                "Building",
+                "Peak Time",
+                "After Hours",
+                "Lounge",
+                "House Party"
+            ],
+            "rekordbox_field": "Label",
+            "metadata_field": "LABEL"
+        },
+        "Mood": {
+            "tags": [
+                "Happy",
+                "Melancholy",
+                "Emotional",
+                "Hype",
+                "Angry"
+            ],
+            "rekordbox_field": "Comments",
+            "metadata_field": "COMMENT"
+        }
+    },
+    "use_rekordbox_xml": false,
+    "rekordbox_db_path": "/path/to/exported/rekordbox.xml",
+    "music_directory": "/path/to/your/music/directory",
+    "mytag_db_file": "MyTags.xml"
+}
