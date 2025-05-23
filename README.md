@@ -2,6 +2,9 @@
 
 Script to read and categorize MyTag data written by Rekordbox to a files comment field, store categorized MyTag info in an XML, and write MyTags to other fields in the files metadata
 
+# Disclaimer
+## Use at your own risk. I made this for my own use and thought I'd share, I am not responsible for what happens to your data. Always have backups before mass editing files.
+
 ## Features
 
 - **Automatically Parse and Categorize MyTags**: Automatically parses and categorizes the unorganized list of MyTags that Rekorbox writes to a songs Comments tag
@@ -19,26 +22,55 @@ Script to read and categorize MyTag data written by Rekordbox to a files comment
 The script relies on a `config.json` file for configuration. The `config.json` file should contain the following structure:
 ```json
 {
-    \"mytag_db_file\": \"path/to/your/mytag_db.xml\",
-    \"rekordbox_db_path\": \"path/to/your/rekordbox_db.xml\",
-    \"use_rekordbox_xml\": true,
-    \"categories\": {
-        \"MOOD\": {
-            \"tags\": [\"Mood1\", \"Mood2\"],
-            \"metadata_field\": \"COMPOSER\",
-			\"rekordbox_field\": \"Composer\"
+    "categories": {
+        "Genre": {
+            "tags": [
+                "House",
+                "Trap",
+                "Dubstep",
+                "Disco. Drum and Bass"
+            ],
+            "rekordbox_field": "Genre",
+            "metadata_field": "GENRE"
         },
-        \"SITUATION\": {
-            \"tags\": [\"Situation1\", \"Situation2\"],
-            \"metadata_field\": \"LABEL\",
-			\"rekordbox_field\": \"LABEL\"
+        "Components": {
+            "tags": [
+                "Synth",
+                "Piano",
+                "Kick",
+                "Hi Hat"
+            ],
+            "rekordbox_field": "Composer",
+            "metadata_field": "COMPOSER"
         },
-        \"GENRE\": {
-            \"tags\": [\"Rock\", \"Pop\"],
-            \"metadata_field\": \"GENRE\",
-			\"rekordbox_field\": \"Genre\"
+        "Situation": {
+            "tags": [
+                "Warm Up",
+                "Building",
+                "Peak Time",
+                "After Hours",
+                "Lounge",
+                "House Party"
+            ],
+            "rekordbox_field": "Label",
+            "metadata_field": "LABEL"
+        },
+        "Mood": {
+            "tags": [
+                "Happy",
+                "Melancholy",
+                "Emotional",
+                "Hype",
+                "Angry"
+            ],
+            "rekordbox_field": "Comments",
+            "metadata_field": "COMMENT"
         }
-    }
+    },
+    "use_rekordbox_xml": false,
+    "rekordbox_db_path": "/path/to/exported/rekordbox.xml",
+    "music_directory": "/path/to/your/music/directory",
+    "mytag_db_file": "MyTags.xml"
 }
 ```
 
@@ -49,7 +81,7 @@ The script relies on a `config.json` file for configuration. The `config.json` f
 
 ## Installation
 
-1. Clone the repository:
+1. Download or Clone the repository:
     ```bash
     git clone https://github.com/yourusername/music-tags-metadata-updater.git
     ```
@@ -63,7 +95,7 @@ The script relies on a `config.json` file for configuration. The `config.json` f
 
 ## Usage
 
-Once you have configured the `config.json` file, you can run the script using:
+There is an 'example_config.json' that can be renamed to 'config.json' and edited as needed. One configured, you can run the script using:
 
 ```bash
 python mytag_converter.py
