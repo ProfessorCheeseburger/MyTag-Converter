@@ -1,4 +1,9 @@
 {
+    "use_rekordbox_xml": false,
+    "rekordbox_db_path": "/path/to/exported/rekordbox.xml",
+    "music_directory": "/path/to/your/music/directory",
+    "mytag_db_file": "MyTags.xml",
+	"tag_delimiter": " / ",
     "categories": {
         "Genre": {
             "tags": [
@@ -43,9 +48,5 @@
             "rekordbox_field": "Comments",
             "metadata_field": "COMMENT"
         }
-    },
-    "use_rekordbox_xml": false,
-    "rekordbox_db_path": "/path/to/exported/rekordbox.xml",
-    "music_directory": "/path/to/your/music/directory",
-    "mytag_db_file": "MyTags.xml"
+    }
 }

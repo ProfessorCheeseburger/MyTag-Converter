@@ -2,9 +2,6 @@
 
 Script to read and categorize MyTag data written by Rekordbox to a files comment field, store categorized MyTag info in an XML, and write MyTags to other fields in the files metadata
 
-# Disclaimer
-## Use at your own risk. I made this for my own use and thought I'd share, I am not responsible for what happens to your data. Always have backups before mass editing files.
-
 ## Features
 
 - **Automatically Parse and Categorize MyTags**: Automatically parses and categorizes the unorganized list of MyTags that Rekorbox writes to a songs Comments tag
@@ -22,55 +19,27 @@ Script to read and categorize MyTag data written by Rekordbox to a files comment
 The script relies on a `config.json` file for configuration. The `config.json` file should contain the following structure:
 ```json
 {
-    "categories": {
-        "Genre": {
-            "tags": [
-                "House",
-                "Trap",
-                "Dubstep",
-                "Disco. Drum and Bass"
-            ],
-            "rekordbox_field": "Genre",
-            "metadata_field": "GENRE"
+    \"mytag_db_file\": \"path/to/your/mytag_db.xml\",
+    \"rekordbox_db_path\": \"path/to/your/rekordbox_db.xml\",
+    \"use_rekordbox_xml\": true,
+    \
+    \"categories\": {
+        \"MOOD\": {
+            \"tags\": [\"Mood1\", \"Mood2\"],
+            \"metadata_field\": \"COMPOSER\",
+			\"rekordbox_field\": \"Composer\"
         },
-        "Components": {
-            "tags": [
-                "Synth",
-                "Piano",
-                "Kick",
-                "Hi Hat"
-            ],
-            "rekordbox_field": "Composer",
-            "metadata_field": "COMPOSER"
+        \"SITUATION\": {
+            \"tags\": [\"Situation1\", \"Situation2\"],
+            \"metadata_field\": \"LABEL\",
+			\"rekordbox_field\": \"LABEL\"
         },
-        "Situation": {
-            "tags": [
-                "Warm Up",
-                "Building",
-                "Peak Time",
-                "After Hours",
-                "Lounge",
-                "House Party"
-            ],
-            "rekordbox_field": "Label",
-            "metadata_field": "LABEL"
-        },
-        "Mood": {
-            "tags": [
-                "Happy",
-                "Melancholy",
-                "Emotional",
-                "Hype",
-                "Angry"
-            ],
-            "rekordbox_field": "Comments",
-            "metadata_field": "COMMENT"
+        \"GENRE\": {
+            \"tags\": [\"Rock\", \"Pop\"],
+            \"metadata_field\": \"GENRE\",
+			\"rekordbox_field\": \"Genre\"
         }
-    },
-    "use_rekordbox_xml": false,
-    "rekordbox_db_path": "/path/to/exported/rekordbox.xml",
-    "music_directory": "/path/to/your/music/directory",
-    "mytag_db_file": "MyTags.xml"
+    }
 }
 ```
 
@@ -81,12 +50,12 @@ The script relies on a `config.json` file for configuration. The `config.json` f
 
 ## Installation
 
-1. Download or Clone the repository:
+1. Download the repository or clone using:
     ```bash
     git clone https://github.com/yourusername/music-tags-metadata-updater.git
     ```
 
-2. Install the required dependencies:
+2. Install the required Python dependencies:
     ```bash
     pip install mutagen
     ```
@@ -95,7 +64,7 @@ The script relies on a `config.json` file for configuration. The `config.json` f
 
 ## Usage
 
-There is an 'example_config.json' that can be renamed to 'config.json' and edited as needed. One configured, you can run the script using:
+Once you have configured the `config.json` file, you can run the script using:
 
 ```bash
 python mytag_converter.py
@@ -107,14 +76,76 @@ python mytag_converter.py
 2. **Categorize Comments**: The script reads the comments from each file, extracts the MyTags written to the files comment field between `/*' and  '*/`, and then categorizes the tags into the associated categories specified in the config.
 4. **Update XML Database and File Metadata**: The script writes the extracted and categorized tags and their associated filepaths to the `mytag_db_file` (XML format) and (if using a Rekorbox Collection XML) updates the songs in Rekordbox XML database and writes the tags to the attributes specified in the config where they can be imported back into the library if desired.
 
-## Example Workflow
+## Notes about ID3 Tags/Metadata
 
-1. Set up your `config.json` with the correct paths and categories.
-2. Run the script to automatically process your music library.
-3. The script will categorize tags from file comments and write them to the metadata fields in both FLAC and MP3 files.
-4. It will also update your Rekordbox XML database with the new metadata tags in the fields specified in the config (this assumes .
+ID3 tags for MP3 are stored as 4 or 5 character Tag IDs. Mutagen has an EasyID3 library that will be used if the metadata field is supported. Note that EasyID3 does not support the "comments" or "publisher" fields but the script is still written so the it writes to the to the MP3s correct ID3 field if those values are specified. "Label" and "Publisher" are treated the same and written to the appropriate field depending on the filetype.
+### Currently supported ID3 fields:
+album
+bpm
+compilation
+composer
+copyright
+encodedby
+lyricist
+length
+media
+mood
+grouping
+title
+version
+artist
+albumartist
+conductor
+arranger
+discnumber
+organization
+tracknumber
+author
+albumartistsort
+albumsort
+composersort
+artistsort
+titlesort
+isrc
+discsubtitle
+language
+genre
+date
+originaldate
+performer
+musicbrainz_trackid
+website
+replaygain__gain
+replaygain__peak
+musicbrainz_artistid
+musicbrainz_albumid
+musicbrainz_albumartistid
+musicbrainz_trmid
+musicip_puid
+musicip_fingerprint
+musicbrainz_albumstatus
+musicbrainz_albumtype
+releasecountry
+musicbrainz_discid
+asin
+performer
+barcode
+catalognumber
+musicbrainz_releasetrackid
+musicbrainz_releasegroupid
+musicbrainz_workid
+acoustid_fingerprint
+acoustid_id
+
+Here is a [list](https://www.exiftool.org/TagNames/ID3.html) of ID3 tag codes. If you exclusively use MP3 for your collection you can specify any 4 character ID3 Tag ID under `Metadata Field`and the script will write the tags to that field.
+### Custom Metadata Fields
+
+- It is possible to store the MyTag info in custom user defined metadata fields if desired. Please note that as far as I'm aware no DJ software is currently able to read/search custom fields.
+
+- If the file is MP3 and the specified field is not a valid ID3 Tag Code or a value that is supported by EasyID3 to map to one, then the tags will be entered under the user defined text field (TXXX) using the field name for the description (different from the text value where the tags will be stored)
+
+- If the file is FLAC and the specified field is not a valid recognized metadata field a custom field will be created containing the tags
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-"
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
