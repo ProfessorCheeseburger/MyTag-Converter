@@ -19,25 +19,55 @@ Script to read and categorize MyTag data written by Rekordbox to a files comment
 The script relies on a `config.json` file for configuration. The `config.json` file should contain the following structure:
 ```json
 {
-    \"mytag_db_file\": \"path/to/your/mytag_db.xml\",
-    \"rekordbox_db_path\": \"path/to/your/rekordbox_db.xml\",
-    \"use_rekordbox_xml\": true,
-    \
-    \"categories\": {
-        \"MOOD\": {
-            \"tags\": [\"Mood1\", \"Mood2\"],
-            \"metadata_field\": \"COMPOSER\",
-			\"rekordbox_field\": \"Composer\"
+    "use_rekordbox_xml": false,
+    "rekordbox_db_path": "/path/to/exported/rekordbox.xml",
+    "music_directory": "/path/to/your/music/directory",
+    "mytag_db_file": "MyTags.xml",
+	"tag_delimiter": " / ",
+    "categories": {
+        "Genre": {
+            "tags": [
+                "House",
+                "Trap",
+                "Dubstep",
+                "Disco",
+                "Drum and Bass"
+            ],
+            "rekordbox_field": "Genre",
+            "metadata_field": "GENRE"
         },
-        \"SITUATION\": {
-            \"tags\": [\"Situation1\", \"Situation2\"],
-            \"metadata_field\": \"LABEL\",
-			\"rekordbox_field\": \"LABEL\"
+        "Components": {
+            "tags": [
+                "Synth",
+                "Piano",
+                "Kick",
+                "Hi Hat"
+            ],
+            "rekordbox_field": "Composer",
+            "metadata_field": "COMPOSER"
         },
-        \"GENRE\": {
-            \"tags\": [\"Rock\", \"Pop\"],
-            \"metadata_field\": \"GENRE\",
-			\"rekordbox_field\": \"Genre\"
+        "Situation": {
+            "tags": [
+                "Warm Up",
+                "Building",
+                "Peak Time",
+                "After Hours",
+                "Lounge",
+                "House Party"
+            ],
+            "rekordbox_field": "Label",
+            "metadata_field": "LABEL"
+        },
+        "Mood": {
+            "tags": [
+                "Happy",
+                "Melancholy",
+                "Emotional",
+                "Hype",
+                "Angry"
+            ],
+            "rekordbox_field": "Comments",
+            "metadata_field": "COMMENT"
         }
     }
 }
